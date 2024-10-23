@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ich Esse deine Daten💻😎🌍</title>
+    <style>
+        
+        body {
+            margin: 0%;
+            padding: 0%;
+            display: flex; /* Flexbox-Layout */
+            justify-content: center; /* Zentriert horizontal */
+            align-items: center; /* Zentriert vertikal */
+            height: 100vh; /* Vollständige Höhe des Viewports */
+            background-color: rgb(1, 1, 139);
+            position: relative;
+            user-select: none; /* Verhindert die Textauswahl */
+            -moz-user-select: none; /* Firefox */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* Internet Explorer */
+            overflow: hidden; /* Verhindert Scrollen */
+            
+        }
+        h1 {
+            position: absolute; /* Damit der Link sich relativ zu <p> positioniert */
+            height: 100px; /* Höhe festlegen, damit wir es sehen können */
+            font-size: 100px;
+            top: 20px;
+            left: 100px;
+        }
+       
+        #a {
+            position: absolute; /* Absolut positioniert innerhalb von <p> */
+            left: 50%; /* Linke Kante auf 50% der Breite setzen */
+            transform: translateX(-50%); /* Um die Breite des Links auszugleichen und zu zentrieren */
+            padding: 10px 20px; /* Optional: Polsterung für den Link */
+            background-color: #f0f0f0; /* Optional: Hintergrundfarbe */
+            text-decoration: none; /* Entfernt die Unterstreichung */
+            color: #000; /* Textfarbe */
+            border-radius: 50px;
+            cursor: url('https://cdn-icons-png.flaticon.com/128/10613/10613611.png'), auto;
+            font-size: xx-large;
+        }
+        #a:hover {
+            background-color: #000;
+            color: white;
+        }
+        #bildersteseite {
+           position: absolute;
+           top: 700px;
+           left: 800px;
+        }
+        .moving-text {
+            position: absolute; /* Absolut positionieren, um Bewegung zu ermöglichen */
+            white-space: nowrap; /* Verhindert Zeilenumbruch */
+            animation: moveRightToLeft 000000000000.00000001s linear infinite; /* Animation für die Bewegung */
+            top: 200px;
+        }
+        @keyframes moveRightToLeft {
+            0% {
+                transform: translateX(500%); /* Start außerhalb des rechten Bildschirms */
+            }
+            50% {
+                transform: translateX(-500%); /* Ende außerhalb des linken Bildschirms */
+            }
+            100% {
+                transform: translateX(500%); /* Start außerhalb des rechten Bildschirms */
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="centre">
+    <h1>Willkommen ich esse deine Daten💻🌍</h1>
+  </div>
+  <div>
+    <a href="essmenü.html" id="a">FEED MEE😍</a>
+  </div>
+  <div>
+    <img src="https://tse4.mm.bing.net/th?id=OIP.wbzMU3-rL6A49msJYg4ukAHaEK&pid=Api&P=0&h=180" id="bildersteseite" alt="Reload the site">
+    <img class="moving-text" src="https://tse4.mm.bing.net/th?id=OIP.k9ZY2JNEcMa5Jps9X6NalwHaFb&pid=Api&P=0&h=180" alt="Bewegung">
+  </div>
+</body>
+</html>

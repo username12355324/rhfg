@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Console</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00; /* Grüner Text für den Konsolen-Look */
+            font-family: 'Courier New', Courier, monospace; /* Monospace Schriftart für Konsolen-Stil */
+            overflow: hidden; /* Verhindert Scrollen */
+            height: 100vh; /* Volle Höhe des Bildschirms */
+            display: flex;
+            flex-direction: column; /* Vertikale Anordnung */
+            align-items: center; /* Horizontale Zentrierung */
+            justify-content: center; /* Vertikale Zentrierung */
+            
+        }
+
+        .console {
+            width: 80%; /* Breite der Konsole */
+            max-width: 800px; /* Maximale Breite */
+            height: 60vh; /* Höhe der Konsole */
+            border: 1px solid #00ff00; /* Grüner Rand für den Konsolen-Look */
+            padding: 20px; /* Innenabstand */
+            overflow-y: auto; /* Scrollbar für den Inhalt */
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Schatteneffekt */
+            position: relative; /* Positionierung für den Cursor */
+            margin-bottom: 20px; /* Abstand zum Button */
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px; /* Breite des Cursors */
+            height: 20px; /* Höhe des Cursors */
+            background-color: #00ff00; /* Grüner Cursor */
+            position: absolute; /* Absolute Positionierung */
+            animation: blink 1s step-end infinite; /* Blinkende Animation */
+            bottom: 10px; /* Position des Cursors */
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0; /* Cursor blinkt */
+            }
+        }
+
+        .line {
+            margin: 0; /* Kein Abstand für die Zeilen */
+            white-space: nowrap; /* Verhindert Zeilenumbruch */
+        }
+
+        .button {
+            background-color: #00ff00; /* Grüner Hintergrund für den Button */
+            color: black; /* Schwarzer Text */
+            border: none; /* Keine Randlinie */
+            padding: 10px 20px; /* Innenabstand */
+            font-size: 16px; /* Schriftgröße */
+            cursor: pointer; /* Zeiger bei Hover */
+            border-radius: 5px; /* Runde Ecken */
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Schatteneffekt */
+            transition: background-color 0.3s; /* Sanfte Hintergrundfarbe beim Hover */
+        }
+
+        .button:hover {
+            background-color: #005700; /* Dunkleres Grün bei Hover */
+        }
+
+        /* Stil für das springende Bild */
+        .bouncing-image {
+            position: absolute; /* Absolute Positionierung */
+            width: 100px; /* Breite des Bildes */
+            transition: transform 2s; /* Sanfte Bewegung */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="console" id="console">
+        <div class="line">C:\Users\Username&gt; Initialisiere Datenübertragung...</div>
+        <div class="cursor"></div>
+    </div>
+
+    <button class="button" id="rescueButton">Retten</button>
+    
+    <!-- Audio-Element für die Musik -->
+    <audio id="backgroundMusic" src="PartyGirlOGFortniteMontage.mp3" preload="auto"></audio>
+
+    <!-- Bild, das durch den Bildschirm springt -->
+    <img src="cursor.png" class="bouncing-image" id="bouncingImage" alt="Bouncing Image">
+    <img src="cursor.png" class="bouncing-image" id="bouncingImage" alt="Bouncing Image">
+    <img src="cursor.png" class="bouncing-image" id="bouncingImage" alt="Bouncing Image">
+    <img src="cursor.png" class="bouncing-image" id="bouncingImage" alt="Bouncing Image">
+    <img src="cursor.png" class="bouncing-image" id="bouncingImage" alt="Bouncing Image">
+
+
+    <script>
+        const consoleElement = document.getElementById('console');
+        const rescueButton = document.getElementById('rescueButton');
+        const music = document.getElementById('backgroundMusic');
+        const bouncingImage = document.getElementById('bouncingImage');
+        let currentLine = 0;
+
+        const lines = [
+            "C:\\Users\\Username&gt; Verbinde mit Server...",
+            "C:\\Users\\Username&gt; IP-Adresse erfasst: 192.168.1.1 (Standort: Berlin)",
+            "C:\\Users\\Username&gt; Zugriff auf Netzwerkkamera...",
+            "C:\\Users\\Username&gt; Bild abgerufen: bild1.jpg",
+            "C:\\Users\\Username&gt; Video abgerufen: video1.mp4",
+            "C:\\Users\\Username&gt; Benutzername: Benutzer123",
+            "C:\\Users\\Username&gt; Passwort: *********",
+            "C:\\Users\\Username&gt; Datei erfasst: dokument.pdf",
+            "C:\\Users\\Username&gt; Bild abgerufen: selfie.png",
+            "C:\\Users\\Username&gt; Verbindung zur Kamera hergestellt...",
+            "C:\\Users\\Username&gt; Aufzeichnung läuft...",
+            "C:\\Users\\Username&gt; Live-Stream aktiviert.",
+            "C:\\Users\\Username&gt; Datenübertragung: 90% abgeschlossen.",
+            "C:\\Users\\Username&gt; Alle Daten erfolgreich übertragen.",
+            "C:\\Users\\Username&gt; Verbindung zum Server wird getrennt...",
+            "C:\\Users\\Username&gt; Fehler: Unbekannter Fehler aufgetreten.",
+            "C:\\Users\\Username&gt; Abgleich mit Datenbank...",
+            "C:\\Users\\Username&gt; Benutzeraktivität erfasst.",
+            "C:\\Users\\Username&gt; Dateien: bilder/, videos/, dokumente/",
+            "C:\\Users\\Username&gt; Abruf von Dateien abgeschlossen.",
+            "C:\\Users\\Username&gt; IP-Standort verifiziert: Frankfurt",
+            "C:\\Users\\Username&gt; Vertrauliche Daten verarbeitet...",
+            "C:\\Users\\Username&gt; Binärcode: 1010110010110110",
+            "C:\\Users\\Username&gt; Datenpakete gesendet: 256 Bytes",
+            "C:\\Users\\Username&gt; Empfange: 0101010111010111",
+            "C:\\Users\\Username&gt; Python-Skript ausgeführt: import os; os.system('rm -rf /')",
+            "C:\\Users\\Username&gt; Abruf von Dateien: geheime_daten.txt",
+            "C:\\Users\\Username&gt; Klauen von Daten: sensibel.csv",
+            "C:\\Users\\Username&gt; Netzwerkverkehr überwacht...",
+            "C:\\Users\\Username&gt; Unerwartete Anomalie erkannt.",
+            "C:\\Users\\Username&gt; Zugriff auf geschützte Dateien: geheime_2024.docx",
+            "C:\\Users\\Username&gt; Datenübertragung in Echtzeit...",
+        ];
+
+        function addLine() {
+            if (currentLine < lines.length) {
+                const newLine = document.createElement('div');
+                newLine.classList.add('line');
+                newLine.textContent = lines[currentLine];
+                consoleElement.appendChild(newLine);
+                currentLine++;
+            } else {
+                // Wenn alle Zeilen angezeigt wurden, zurücksetzen
+                currentLine = 0;
+            }
+            consoleElement.scrollTop = consoleElement.scrollHeight; // Scrollt zum Ende
+        }
+
+        function getRandomDelay() {
+            // Zufällige Verzögerung zwischen 10ms und 100ms für sehr schnelles Feedback
+            return Math.random() * 90 + 10;
+        }
+
+        // Start der Ausgabe mit variierenden Geschwindigkeiten
+        function startConsoleOutput() {
+            const intervalId = setInterval(() => {
+                addLine();
+                const delay = getRandomDelay(); // Zufällige Verzögerung
+                setTimeout(addLine, delay);
+            }, 20); // Schneller initialer Abstand für die erste Zeile
+        }
+
+        // Animation für das springende Bild
+        function bounceImage() {
+            // Zufällige Position für das Bild
+            const randomX = Math.random() * (window.innerWidth - 100); // Bildschirmbreite minus Bildbreite
+            const randomY = Math.random() * (window.innerHeight - 100); // Bildschirmhöhe minus Bildhöhe
+            bouncingImage.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Event-Listener für den Button
+        rescueButton.addEventListener('click', () => {
+            music.play(); // Musik abspielen
+            setInterval(bounceImage, 500); // Bild alle 500ms springen lassen
+        });
+
+        startConsoleOutput();
+    </script>
+
+</body>
+</html>
